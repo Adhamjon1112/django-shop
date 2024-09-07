@@ -1,0 +1,19 @@
+{% extends 'layouts/base.html' %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-4 offset-lg-4">
+        <form action="{% url 'main:index' %}" method="post" class="card" autocomplete="off">
+            {% csrf_token %}
+            <div class="card-header d-flex justify-content-center align-items-center"> Tizimga kirish</div>
+            <div class="card-body">
+                {% bootstrap_form form %}
+                <p><a href="{% url 'user:password_reset_request' %}">Parolni unutdingizmi?</a></p>
+                <button type="submit" class="btn btn-success">Kirish</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,8 @@
+asgiref==3.8.1
+Django==5.1.1
+django-bootstrap5==24.2
+djangorestframework==3.15.2
+phonenumbers==8.13.44
+six==1.16.0
+sqlparse==0.5.1
+tzdata==2024.1

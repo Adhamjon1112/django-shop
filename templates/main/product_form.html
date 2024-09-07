@@ -1,0 +1,16 @@
+{% extends 'layouts/form.html' %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2>Mahsulot Qo'shish</h2>
+        <form method="post" class="card p-4" style="width: 600px;" autocomplete="off">
+            {% csrf_token %}
+            {% bootstrap_form form %}  
+            
+            <button type="submit" class="btn btn-primary" style="width: 160px;">Qo'shish</button>
+            <a href="{% url 'main:shop_create' %}" class="btn btn-secondary mt-3" style="width: 160px;">Orqaga</a>
+        </form>
+    </div>
+{% endblock %}
