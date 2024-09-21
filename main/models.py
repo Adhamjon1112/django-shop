@@ -1,14 +1,19 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
 
 class Shop(models.Model):
-    STATUS_CHOICES = (
-        (0, 'Yangi'),
-        (1, 'Tasdiqlanmagan'),
-        (2, 'Tasdiqlangan'),
-    )
+    STATUS_NEW = 0
+    STATUS_NOT_APPROVED = 1
+    STATUS_APPROVED = 2
+
+    STATUS_CHOICES = [
+        (STATUS_NEW, _("Yangi")),
+        (STATUS_NOT_APPROVED, _("Tasdiqlanmagan")),
+        (STATUS_APPROVED, _("Tasdiqlangan")),
+    ]
     
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='shops')
     name_uz = models.CharField(max_length=50, verbose_name="Magazin nomi (UZ)")
@@ -20,11 +25,15 @@ class Shop(models.Model):
         return self.name_uz
 
 class Product(models.Model):
-    STATUS_CHOICES = (
-        (0, 'Yangi'),
-        (1, 'Tasdiqlanmagan'),
-        (2, 'Tasdiqlangan'),
-    )
+    STATUS_NEW = 0
+    STATUS_NOT_APPROVED = 1
+    STATUS_APPROVED = 2
+
+    STATUS_CHOICES = [
+        (STATUS_NEW, _("Yangi")),
+        (STATUS_NOT_APPROVED, _("Tasdiqlanmagan")),
+        (STATUS_APPROVED, _("Tasdiqlangan")),
+    ]
 
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='products', verbose_name="Magazin")
     name_uz = models.CharField(max_length=100, verbose_name="Mahsulot nomi (UZ)")

@@ -4,14 +4,15 @@ from django.views.generic import TemplateView
 
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from .models import Shop, Product
 from .forms import ShopForm, ProductForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.urls import reverse
-
+from rest_framework.permissions import IsAuthenticated
+# from .permissions import CanAddShopPermission, CanAddProductPermission
 
 class MainIndex(TemplateView):
     template_name = 'main/index.html'
@@ -35,13 +36,15 @@ class MainIndex(TemplateView):
         return self.render_to_response({'form': form})
 
 
-class ShopCreateView(LoginRequiredMixin, CreateView):
+class ShopCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     model = Shop
     form_class = ShopForm
     template_name = 'main/shop_form.html'
     success_url = reverse_lazy('main:product_create')  
-
+    permission_required = 'main.add_shop'  
+    
     def form_valid(self, form):
+        
         # Tizimga kirgan foydalanuvchini shop'ga bog'lash
         form.instance.user = self.request.user
         form.instance.status = 0  # Yangi shop - tasdiqlanmagan
@@ -50,11 +53,11 @@ class ShopCreateView(LoginRequiredMixin, CreateView):
 
 
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
+class ProductCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'main/product_form.html'
-    
+    permission_required = 'main.add_product'
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
