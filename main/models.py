@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
+from django.conf import settings
+
 User = get_user_model()
 
 class Shop(models.Model):
@@ -44,6 +46,26 @@ class Product(models.Model):
     description_en = models.TextField(verbose_name="Mahsulot tavsifi (EN)", blank=True, null=True)
     status = models.SmallIntegerField(choices=STATUS_CHOICES, default=0, verbose_name="Holati")
     quantity = models.IntegerField(default=0, verbose_name="Miqdori")
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Narxi", default=0)
 
     def __str__(self):
         return self.name_uz
+    
+class Card(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cards')
+    card_number = models.CharField(max_length=16)  
+    expiry_date = models.CharField(max_length=5)  
+    card_holder = models.CharField(max_length=50)  
+
+    def __str__(self):
+        return f"{self.card_number}      ({self.expiry_date})"
+    
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='orders')
+    card = models.ForeignKey(Card, on_delete=models.SET_NULL, null=True, blank=True)
+    is_confirmed = models.BooleanField(default=False)  
+
+    def __str__(self):
+        return f"Order {self.user.username} by {self.card.card_number} for {self.product.name_uz}"

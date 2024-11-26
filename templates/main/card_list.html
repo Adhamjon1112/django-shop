@@ -1,0 +1,16 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+  <h2>Sizning kartalaringiz</h2>
+  <ul>
+    {% for card in cards %}
+      <li>
+        Karta raqam: {{ card.card_number }} |
+        Amal qilish muddati: {{ card.expiry_date }} |
+        Karta egasi: {{ card.card_holder }}
+      </li>
+    {% empty %}
+      <li>Sizda hech qanday karta mavjud emas.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

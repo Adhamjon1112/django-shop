@@ -1,5 +1,5 @@
 from django.contrib import admin
-from main.models import Product, Shop
+from main.models import Product, Shop, Card, Order
 
 @admin.register(Shop)
 class ShopAdmin(admin.ModelAdmin):
@@ -38,3 +38,6 @@ class ProductAdmin(admin.ModelAdmin):
         queryset.update(status=1)
         self.message_user(request, "Tanlangan mahsulotlar tasdiqlanmagan holatga o'tkazildi.")
     mark_as_pending.short_description = "Tanlangan mahsulotlarni tasdiqlanmagan holatga o'tkazish"
+
+admin.site.register(Card)
+admin.site.register(Order)

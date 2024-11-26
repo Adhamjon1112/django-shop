@@ -1,0 +1,23 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Mahsulotni sotib olish</h2>
+    
+    <div class="product-info mb-4">
+        <h5>Mahsulot nomi: {{ product.name_uz }}</h5>
+        <p>Narxi: {{ product.price }} so`m</p>
+        <p>Mavjud miqdor: {{ product.quantity }}</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <a href="{% url 'main:add_card' %}" class="btn btn-secondary ml-2">Karta qo'shish</a>
+        <button type="submit" class="btn btn-primary">Sotib olish</button>
+        
+    </form>
+</div>
+{% endblock %}
+

@@ -1,0 +1,15 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<h2>Mahsulotlar ro'yxati</h2>
+<ul>
+    {% for product in products %}
+        <li>
+            <h4><strong>{{ product.name_uz }}</strong></h4>
+                <p>{{ product.price }} so‘m</p>
+                <p>Mavjud miqdor: {{ product.quantity }}</p>
+            <a href="{% url 'main:purchase_product' product.id %}">Sotib olish</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

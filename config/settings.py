@@ -22,18 +22,28 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!!0epj2&&xm$31^ot6)l6s0%2!&9+3o!&k273fikoa43wx6l(6'
+
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
+
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = env.bool('DEBUG')
+
+# SECRET_KEY = 'django-insecure-!!0epj2&&xm$31^ot6)l6s0%2!&9+3o!&k273fikoa43wx6l(6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+
 
 ALLOWED_HOSTS = []
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-    ),
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework.authentication.TokenAuthentication',
+    # ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
@@ -52,7 +62,10 @@ INSTALLED_APPS = [
     'main',
     'user',
     'api',
-    'rest_framework'
+    'rest_framework',
+
+    'rest_framework_swagger',    
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -146,16 +159,4 @@ AUTH_USER_MODEL = 'user.User'
 MESSAGE_TAGS = {
     messages.INFO: "alert alert-info",
     messages.SUCCESS: "alert alert-success",
-}
-
-REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-    ),
-    'DEFAULT_PARSER_CLASSES': (
-        'rest_framework.parsers.JSONParser',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
-    ),
 }
